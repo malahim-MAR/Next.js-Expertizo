@@ -1,18 +1,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
+import { UserValue } from "@/app/redux/reducer/usernameSlice"; // ⬅️ Import your action
 
 const Github = () => {
   const [username, setUsername] = useState("");
   const router = useRouter();
+  const dispatch = useDispatch();
+
+  const githubUser = useSelector((state) => state.username.GithubUser); // ✅ must be top-level
+
   const getValue = (e) => {
     e.preventDefault();
-    // const usernameValue = username;
-    console.log(username);
-    router.push(`/user/${username}`);
+
+    if (username.trim() !== "") {
+      // Only dispatch and update if input is not empty
+      if (username !== githubUser) {
+        dispatch(UserValue(username)); // ✅ update Redux state
+      }
+
+      router.push(`/user/${username}`); // ✅ navigate to dynamic route
+    }
   };
+
   return (
     <>
       <div className="align-center">
@@ -41,7 +53,7 @@ const Github = () => {
               placeholder="Search"
             />
           </label>
-          <button class="btn bg-black" type="submit">
+          <button className="btn bg-black" type="submit">
             <svg
               aria-label="GitHub logo"
               width="20"

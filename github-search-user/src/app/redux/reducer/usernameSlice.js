@@ -1,27 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  cartItems: [],
+  GithubUser: "",
 };
 
-const cartSlice = createSlice({
-  name: "cart",
+const usernameSlice = createSlice({
+  name: "username",
   initialState,
   reducers: {
     UserValue: (state, action) => {
-      const existingItem = state.cartItems.find(
-        (item) => item.id === action.payload.id
-      );
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        state.cartItems.push({ ...action.payload, quantity: 1 });
-      }
+      state.GithubUser = action.payload;
     },
   },
 });
 
-// Make sure all reducers are exported here
-export const { UserValue } = cartSlice.actions;
+export const { UserValue } = usernameSlice.actions;
 
-export default cartSlice.reducer;
+export default usernameSlice.reducer;
