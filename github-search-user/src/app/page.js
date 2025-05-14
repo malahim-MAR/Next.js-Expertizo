@@ -1,3 +1,4 @@
+"use client";
 import Github from "./components/Github";
 
 export default function Home() {

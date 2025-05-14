@@ -1,12 +1,22 @@
-'use client'
+"use client";
 
-import React from "react";
+import { useRouter } from "next/navigation";
+
+import React, { useState } from "react";
 
 const Github = () => {
+  const [username, setUsername] = useState("");
+  const router = useRouter();
+  const getValue = (e) => {
+    e.preventDefault();
+    // const usernameValue = username;
+    console.log(username);
+    router.push(`/user/${username}`);
+  };
   return (
     <>
       <div className="align-center">
-        <form className="flex justify-center gap-10">
+        <form className="flex justify-center gap-10" onSubmit={getValue}>
           <label className="input w-100 bg-black">
             <svg
               className="h-[1em] opacity-100"
@@ -24,9 +34,14 @@ const Github = () => {
                 <path d="m21 21-4.3-4.3"></path>
               </g>
             </svg>
-            <input type="search" required placeholder="Search" />
+            <input
+              type="search"
+              required
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Search"
+            />
           </label>
-          <button class="btn bg-black">
+          <button class="btn bg-black" type="submit">
             <svg
               aria-label="GitHub logo"
               width="20"
