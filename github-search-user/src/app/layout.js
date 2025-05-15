@@ -1,8 +1,9 @@
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
+// ❌ DO NOT add "use client" here
+
 import "./globals.css";
-import { Provider } from "react-redux";
-import { store } from "./redux/store/store";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import ReduxProvider from "./redux/ReduxProvider"; // ✅ client-only wrapper
 
 export const metadata = {
   title: "Create Next App",
@@ -13,11 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Provider store={store}>
+        <ReduxProvider>
           <Navbar />
           {children}
           <Footer />
-        </Provider>
+        </ReduxProvider>
       </body>
     </html>
   );

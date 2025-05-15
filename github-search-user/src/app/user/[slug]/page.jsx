@@ -1,37 +1,54 @@
-// import Image from "next/image";
+"use client";
 
-// import { notFound } from "next/navigation";
+import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
-// export default async function page({ params }) {
-//   const { id } = params;
+const Page = () => {
+  const [user, setUser] = useState("");
+  const [githubDetail, setGithubDetail] = useState(null);
+  const userData = useSelector((state) => state.username.GithubUser);
 
-//   const res = await fetch(`https://api.github.com/users/${id}`);
+  useEffect(() => {
+    setUser(userData);
+  }, [userData]);
 
-//   if (res.status !== 200) {
-//     notFound();
-//   }
+  useEffect(() => {
+    if (!user) return; // don't fetch if user is empty
 
-//   const data = await res.json();
+    fetch(`https://api.github.com/users/${user}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setGithubDetail(data);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [user]);
 
-//   return (
-//     <div>
-//       page {data.name}
-//       <br />
-//       <p>
-//         follower
-//         {data.followers} following {data.following}
-//       </p>
-//       <br />
-//       <Image src={data.avatar_url} alt={data.name} width={200} height={200} />
-//     </div>
-//   );
-// }
-import React from 'react'
-
-const page = () => {
   return (
-    <div>page</div>
-  )
-}
+    <>
+      <Link href={"/"}>
+        <button className="btn bg-white text-black">Search Another One</button>
+      </Link>
+      <div>page</div>
+      <div>User from Redux: {user}</div>
 
-export default page
+      {githubDetail && (
+        <div>
+          <h2>{githubDetail.name}</h2>
+          <p>{githubDetail.bio}</p>
+          <img
+            src={githubDetail.avatar_url}
+            alt={githubDetail.login}
+            width={100}
+          />
+          {/* Add more details as you want */}
+        </div>
+      )}
+    </>
+  );
+};
+
+export default Page;
